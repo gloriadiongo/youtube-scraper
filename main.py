@@ -94,10 +94,11 @@ def engine(yt_api_key: str, days_back: int, handles: list):
             result_gen = get_handle_uploaded_videos(youtube, handle, days_back=days_back)
             while True:
                 data, nextPageToken = next(result_gen)
-                all_data.append(data)
+                for dt in data:
+                    all_data.append(dt)
                 if nextPageToken is None:
                     break
         except TypeError:
             pass
-    df = pd.DataFrame(data, columns=columns)
+    df = pd.DataFrame(all_data, columns=columns)
     return df

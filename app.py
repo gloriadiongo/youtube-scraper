@@ -63,7 +63,6 @@ def main_page():
         if st.session_state['y_key']:
             with st.spinner():
                 df = main.engine(st.session_state['y_key'], int(number_of_days_to_scrape), st.session_state['handles'])
-                df.to_csv('sample2.csv', index=False)
                 new_df = clean_data.main(df)
                 download_layout(new_df)
             st.success("Done!")
