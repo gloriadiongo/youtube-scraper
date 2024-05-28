@@ -49,9 +49,7 @@ def add_handles():
         new_h = st.text_input("Add a handle")
         if st.form_submit_button("Submit"):
             if new_h:
-                st.session_state['handles'].append(new_h)
-    
-   #AIzaSyAFYmu1R9bCK0vsYKYwa501cKq2Wtu42ig 
+                st.session_state['handles'].append(new_h) 
     
 def main_page():
     add_handles()
