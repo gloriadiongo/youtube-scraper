@@ -7,19 +7,19 @@ st.header("Youtube scraper!!")
 HANDLES = [
     "etoileshowlive333",
     "dinanaladouceofficielle1762",
-    # "kelbulmag5655",
-    # "RDCComediensCongolaisTV",
-    # "jeremieshabaniofficiel3323",
-    # "RDCCINEMATV",
-    # "CongofranceCFTv1",
-    # "lepeupleparletv",
-    # "majorbisadiditv9874",
-    # "bellevuetv2706",
-    # "BRAVOCINE",
-    # "rdcongo83",
-    # "kevinesydneyofficiel2833",
-    # "kintheatre",
-    # "canalcongoofficiel9601",
+    "kelbulmag5655",
+    "RDCComediensCongolaisTV",
+    "jeremieshabaniofficiel3323",
+    "RDCCINEMATV",
+    "CongofranceCFTv1",
+    "lepeupleparletv",
+    "majorbisadiditv9874",
+    "bellevuetv2706",
+    "BRAVOCINE",
+    "rdcongo83",
+    "kevinesydneyofficiel2833",
+    "kintheatre",
+    "canalcongoofficiel9601",
 ]
 
 if "y_key" not in st.session_state:
@@ -50,9 +50,14 @@ def add_handles():
         if st.form_submit_button("Submit"):
             if new_h:
                 st.session_state['handles'].append(new_h) 
-    
+
+def show_handle():
+    with st.expander("show handle"):
+        st.write(st.session_state['handles'])
+           
 def main_page():
     add_handles()
+    show_handle()
     number_of_days_to_scrape = st.number_input("Number of Days to scrape")
     if st.button("Start!"):
         if st.session_state['y_key']:
