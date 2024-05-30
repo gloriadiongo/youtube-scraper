@@ -1,6 +1,8 @@
 import streamlit as st
 import main
 import clean_data
+import pandas as pd
+import io
 
 st.header("Youtube scraper!!")
 
@@ -31,19 +33,20 @@ if 'handles' not in st.session_state:
 y_key = st.text_input("Youtube API Key", type='password')
 if y_key:
     st.session_state['y_key'] = y_key
-    
-def convert_df(df):
-    return df.to_csv().encode("utf-8")
 
-def download_layout(df):
-    csv = convert_df(df)
-    st.download_button(
-        label="Download data as CSV",
-        data=csv,
-        file_name="result.csv",
-        mime="text/csv",
-    )
-  
+def download_layout(df: pd.DataFrame):
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        # Write each dataframe to a different worksheet.
+        df.to_excel(writer, sheet_name='Sheet1', index=False)
+        writer.close()
+        download2 = st.download_button(
+            label="Download data as Excel",
+            data=buffer,
+            file_name='result.xlsx',
+            mime='application/vnd.ms-excel'
+        )
+
 def add_handles():
     with st.form("Add new handle", clear_on_submit=True):
         new_h = st.text_input("Add a handle")
@@ -64,6 +67,7 @@ def main_page():
             with st.spinner():
                 df = main.engine(st.session_state['y_key'], int(number_of_days_to_scrape), st.session_state['handles'])
                 new_df = clean_data.main(df)
+                print(new_df)
                 download_layout(new_df)
             st.success("Done!")
         else:
