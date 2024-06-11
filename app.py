@@ -52,7 +52,14 @@ def add_handles():
         new_h = st.text_input("Add a handle")
         if st.form_submit_button("Submit"):
             if new_h:
-                st.session_state['handles'].append(new_h) 
+                st.session_state['handles'].append(new_h)
+
+def remove_handles():
+    with st.form("Remove handle", clear_on_submit=True):
+        new_h = st.text_input("Remove handle")
+        if st.form_submit_button("Submit"):
+            if new_h:
+                st.session_state['handles'].remove(new_h)
 
 def show_handle():
     with st.expander("show handle"):
@@ -60,6 +67,7 @@ def show_handle():
            
 def main_page():
     add_handles()
+    remove_handles()
     show_handle()
     number_of_days_to_scrape = st.number_input("Number of Days to scrape")
     if st.button("Start!"):
@@ -67,7 +75,6 @@ def main_page():
             with st.spinner():
                 df = main.engine(st.session_state['y_key'], int(number_of_days_to_scrape), st.session_state['handles'])
                 new_df = clean_data.main(df)
-                print(new_df)
                 download_layout(new_df)
             st.success("Done!")
         else:
